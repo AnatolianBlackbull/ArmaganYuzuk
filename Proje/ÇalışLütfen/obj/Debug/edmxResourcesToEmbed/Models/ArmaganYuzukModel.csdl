@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ArmaganYuzukModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Kullanici">
+    <Key>
+      <PropertyRef Name="musteri_id" />
+    </Key>
+    <Property Name="musteri_id" Type="Int32" Nullable="false" />
+    <Property Name="ad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="soyad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="kullanici_ad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="kullanici_sifre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="eposta" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Satici" Relationship="Self.FK_Satici" FromRole="Kullanici" ToRole="Satici" />
+    <NavigationProperty Name="Satis" Relationship="Self.FK_Satis_Musteri" FromRole="Kullanici" ToRole="Satis" />
+  </EntityType>
+  <EntityType Name="Satici">
+    <Key>
+      <PropertyRef Name="satici_id" />
+    </Key>
+    <Property Name="satici_id" Type="Int32" Nullable="false" />
+    <Property Name="telefon" Type="Int32" Nullable="false" />
+    <Property Name="musteri_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Kullanici" Relationship="Self.FK_Satici" FromRole="Satici" ToRole="Kullanici" />
+    <NavigationProperty Name="Satis" Relationship="Self.FK_Satis_Satici" FromRole="Satici" ToRole="Satis" />
+    <NavigationProperty Name="Yuzuk" Relationship="Self.FK_Yuzuk_Satici" FromRole="Satici" ToRole="Yuzuk" />
+  </EntityType>
+  <EntityType Name="Satis">
+    <Key>
+      <PropertyRef Name="satis_id" />
+    </Key>
+    <Property Name="satis_id" Type="Int32" Nullable="false" />
+    <Property Name="urun_id" Type="Int32" Nullable="false" />
+    <Property Name="satis_miktar" Type="Int32" Nullable="false" />
+    <Property Name="musteri_id" Type="Int32" Nullable="false" />
+    <Property Name="satici_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Kullanici" Relationship="Self.FK_Satis_Musteri" FromRole="Satis" ToRole="Kullanici" />
+    <NavigationProperty Name="Satici" Relationship="Self.FK_Satis_Satici" FromRole="Satis" ToRole="Satici" />
+    <NavigationProperty Name="Yuzuk" Relationship="Self.FK_Satis_Urun" FromRole="Satis" ToRole="Yuzuk" />
+  </EntityType>
+  <EntityType Name="Yuzuk">
+    <Key>
+      <PropertyRef Name="urun_id" />
+    </Key>
+    <Property Name="satici_id" Type="Int32" Nullable="false" />
+    <Property Name="urun_ad" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="urun_id" Type="Int32" Nullable="false" />
+    <Property Name="stok_adet" Type="Int32" Nullable="false" />
+    <Property Name="fiyat" Type="Int32" Nullable="false" />
+    <Property Name="cins" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="tas" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Satici" Relationship="Self.FK_Yuzuk_Satici" FromRole="Yuzuk" ToRole="Satici" />
+    <NavigationProperty Name="Satis" Relationship="Self.FK_Satis_Urun" FromRole="Yuzuk" ToRole="Satis" />
+  </EntityType>
+  <EntityType Name="SiparisGoruntule">
+    <Key>
+      <PropertyRef Name="IslemID" />
+      <PropertyRef Name="Satici" />
+      <PropertyRef Name="MusteriAd" />
+      <PropertyRef Name="UrunId" />
+      <PropertyRef Name="UrunAd" />
+      <PropertyRef Name="Adet" />
+    </Key>
+    <Property Name="IslemID" Type="Int32" Nullable="false" />
+    <Property Name="Satici" Type="String" MaxLength="101" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="MusteriAd" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UrunId" Type="Int32" Nullable="false" />
+    <Property Name="UrunAd" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Adet" Type="Int32" Nullable="false" />
+    <Property Name="Fiyat" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_Satici">
+    <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="1" />
+    <End Role="Satici" Type="Self.Satici" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kullanici">
+        <PropertyRef Name="musteri_id" />
+      </Principal>
+      <Dependent Role="Satici">
+        <PropertyRef Name="musteri_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Satis_Musteri">
+    <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="1" />
+    <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kullanici">
+        <PropertyRef Name="musteri_id" />
+      </Principal>
+      <Dependent Role="Satis">
+        <PropertyRef Name="musteri_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Satis_Satici">
+    <End Role="Satici" Type="Self.Satici" Multiplicity="1" />
+    <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Satici">
+        <PropertyRef Name="satici_id" />
+      </Principal>
+      <Dependent Role="Satis">
+        <PropertyRef Name="satici_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Yuzuk_Satici">
+    <End Role="Satici" Type="Self.Satici" Multiplicity="1" />
+    <End Role="Yuzuk" Type="Self.Yuzuk" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Satici">
+        <PropertyRef Name="satici_id" />
+      </Principal>
+      <Dependent Role="Yuzuk">
+        <PropertyRef Name="satici_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Satis_Urun">
+    <End Role="Yuzuk" Type="Self.Yuzuk" Multiplicity="1" />
+    <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Yuzuk">
+        <PropertyRef Name="urun_id" />
+      </Principal>
+      <Dependent Role="Satis">
+        <PropertyRef Name="urun_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ArmaganYuzukEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Kullanici" EntityType="Self.Kullanici" />
+    <EntitySet Name="Satici" EntityType="Self.Satici" />
+    <EntitySet Name="Satis" EntityType="Self.Satis" />
+    <EntitySet Name="Yuzuk" EntityType="Self.Yuzuk" />
+    <EntitySet Name="SiparisGoruntule" EntityType="Self.SiparisGoruntule" />
+    <AssociationSet Name="FK_Satici" Association="Self.FK_Satici">
+      <End Role="Kullanici" EntitySet="Kullanici" />
+      <End Role="Satici" EntitySet="Satici" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Satis_Musteri" Association="Self.FK_Satis_Musteri">
+      <End Role="Kullanici" EntitySet="Kullanici" />
+      <End Role="Satis" EntitySet="Satis" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Satis_Satici" Association="Self.FK_Satis_Satici">
+      <End Role="Satici" EntitySet="Satici" />
+      <End Role="Satis" EntitySet="Satis" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Yuzuk_Satici" Association="Self.FK_Yuzuk_Satici">
+      <End Role="Satici" EntitySet="Satici" />
+      <End Role="Yuzuk" EntitySet="Yuzuk" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Satis_Urun" Association="Self.FK_Satis_Urun">
+      <End Role="Yuzuk" EntitySet="Yuzuk" />
+      <End Role="Satis" EntitySet="Satis" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

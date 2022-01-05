@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ArmaganYuzukModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Kullanici">
+    <Key>
+      <PropertyRef Name="musteri_id" />
+    </Key>
+    <Property Name="musteri_id" Type="int" Nullable="false" />
+    <Property Name="ad" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="soyad" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="kullanici_ad" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="kullanici_sifre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="eposta" Type="varchar" MaxLength="200" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Satici">
+    <Key>
+      <PropertyRef Name="satici_id" />
+    </Key>
+    <Property Name="satici_id" Type="int" Nullable="false" />
+    <Property Name="telefon" Type="int" Nullable="false" />
+    <Property Name="musteri_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Satis">
+    <Key>
+      <PropertyRef Name="satis_id" />
+    </Key>
+    <Property Name="satis_id" Type="int" Nullable="false" />
+    <Property Name="urun_id" Type="int" Nullable="false" />
+    <Property Name="satis_miktar" Type="int" Nullable="false" />
+    <Property Name="musteri_id" Type="int" Nullable="false" />
+    <Property Name="satici_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Yuzuk">
+    <Key>
+      <PropertyRef Name="urun_id" />
+    </Key>
+    <Property Name="satici_id" Type="int" Nullable="false" />
+    <Property Name="urun_ad" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="urun_id" Type="int" Nullable="false" />
+    <Property Name="stok_adet" Type="int" Nullable="false" />
+    <Property Name="fiyat" Type="int" Nullable="false" />
+    <Property Name="cins" Type="varchar" MaxLength="50" />
+    <Property Name="tas" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'ArmaganYuzuk.dbo.SiparisGoruntule' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SiparisGoruntule">
+    <Key>
+      <PropertyRef Name="IslemID" />
+      <PropertyRef Name="Satici" />
+      <PropertyRef Name="MusteriAd" />
+      <PropertyRef Name="UrunId" />
+      <PropertyRef Name="UrunAd" />
+      <PropertyRef Name="Adet" />
+    </Key>
+    <Property Name="IslemID" Type="int" Nullable="false" />
+    <Property Name="Satici" Type="varchar" MaxLength="101" Nullable="false" />
+    <Property Name="MusteriAd" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="UrunId" Type="int" Nullable="false" />
+    <Property Name="UrunAd" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="Adet" Type="int" Nullable="false" />
+    <Property Name="Fiyat" Type="int" />
+  </EntityType>
+  <Association Name="FK_Satici">
+    <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="1" />
+    <End Role="Satici" Type="Self.Satici" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kullanici">
+        <PropertyRef Name="musteri_id" />
+      </Principal>
+      <Dependent Role="Satici">
+        <PropertyRef Name="musteri_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Satis_Musteri">
+    <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="1" />
+    <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kullanici">
+        <PropertyRef Name="musteri_id" />
+      </Principal>
+      <Dependent Role="Satis">
+        <PropertyRef Name="musteri_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Satis_Satici">
+    <End Role="Satici" Type="Self.Satici" Multiplicity="1" />
+    <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Satici">
+        <PropertyRef Name="satici_id" />
+      </Principal>
+      <Dependent Role="Satis">
+        <PropertyRef Name="satici_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Satis_Urun">
+    <End Role="Yuzuk" Type="Self.Yuzuk" Multiplicity="1" />
+    <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Yuzuk">
+        <PropertyRef Name="urun_id" />
+      </Principal>
+      <Dependent Role="Satis">
+        <PropertyRef Name="urun_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Yuzuk_Satici">
+    <End Role="Satici" Type="Self.Satici" Multiplicity="1" />
+    <End Role="Yuzuk" Type="Self.Yuzuk" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Satici">
+        <PropertyRef Name="satici_id" />
+      </Principal>
+      <Dependent Role="Yuzuk">
+        <PropertyRef Name="satici_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ArmaganYuzukModelStoreContainer">
+    <EntitySet Name="Kullanici" EntityType="Self.Kullanici" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Satici" EntityType="Self.Satici" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Satis" EntityType="Self.Satis" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Yuzuk" EntityType="Self.Yuzuk" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SiparisGoruntule" EntityType="Self.SiparisGoruntule" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SiparisGoruntule].[IslemID] AS [IslemID], 
+    [SiparisGoruntule].[Satici] AS [Satici], 
+    [SiparisGoruntule].[MusteriAd] AS [MusteriAd], 
+    [SiparisGoruntule].[UrunId] AS [UrunId], 
+    [SiparisGoruntule].[UrunAd] AS [UrunAd], 
+    [SiparisGoruntule].[Adet] AS [Adet], 
+    [SiparisGoruntule].[Fiyat] AS [Fiyat]
+    FROM [dbo].[SiparisGoruntule] AS [SiparisGoruntule]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Satici" Association="Self.FK_Satici">
+      <End Role="Kullanici" EntitySet="Kullanici" />
+      <End Role="Satici" EntitySet="Satici" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Satis_Musteri" Association="Self.FK_Satis_Musteri">
+      <End Role="Kullanici" EntitySet="Kullanici" />
+      <End Role="Satis" EntitySet="Satis" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Satis_Satici" Association="Self.FK_Satis_Satici">
+      <End Role="Satici" EntitySet="Satici" />
+      <End Role="Satis" EntitySet="Satis" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Satis_Urun" Association="Self.FK_Satis_Urun">
+      <End Role="Yuzuk" EntitySet="Yuzuk" />
+      <End Role="Satis" EntitySet="Satis" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Yuzuk_Satici" Association="Self.FK_Yuzuk_Satici">
+      <End Role="Satici" EntitySet="Satici" />
+      <End Role="Yuzuk" EntitySet="Yuzuk" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

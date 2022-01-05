@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ArmaganYuzukModelStoreContainer" CdmEntityContainer="ArmaganYuzukEntities">
+    <EntitySetMapping Name="Kullanici">
+      <EntityTypeMapping TypeName="ArmaganYuzukModel.Kullanici">
+        <MappingFragment StoreEntitySet="Kullanici">
+          <ScalarProperty Name="musteri_id" ColumnName="musteri_id" />
+          <ScalarProperty Name="ad" ColumnName="ad" />
+          <ScalarProperty Name="soyad" ColumnName="soyad" />
+          <ScalarProperty Name="kullanici_ad" ColumnName="kullanici_ad" />
+          <ScalarProperty Name="kullanici_sifre" ColumnName="kullanici_sifre" />
+          <ScalarProperty Name="eposta" ColumnName="eposta" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Satici">
+      <EntityTypeMapping TypeName="ArmaganYuzukModel.Satici">
+        <MappingFragment StoreEntitySet="Satici">
+          <ScalarProperty Name="satici_id" ColumnName="satici_id" />
+          <ScalarProperty Name="telefon" ColumnName="telefon" />
+          <ScalarProperty Name="musteri_id" ColumnName="musteri_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Satis">
+      <EntityTypeMapping TypeName="ArmaganYuzukModel.Satis">
+        <MappingFragment StoreEntitySet="Satis">
+          <ScalarProperty Name="satis_id" ColumnName="satis_id" />
+          <ScalarProperty Name="urun_id" ColumnName="urun_id" />
+          <ScalarProperty Name="satis_miktar" ColumnName="satis_miktar" />
+          <ScalarProperty Name="musteri_id" ColumnName="musteri_id" />
+          <ScalarProperty Name="satici_id" ColumnName="satici_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Yuzuk">
+      <EntityTypeMapping TypeName="ArmaganYuzukModel.Yuzuk">
+        <MappingFragment StoreEntitySet="Yuzuk">
+          <ScalarProperty Name="satici_id" ColumnName="satici_id" />
+          <ScalarProperty Name="urun_ad" ColumnName="urun_ad" />
+          <ScalarProperty Name="urun_id" ColumnName="urun_id" />
+          <ScalarProperty Name="stok_adet" ColumnName="stok_adet" />
+          <ScalarProperty Name="fiyat" ColumnName="fiyat" />
+          <ScalarProperty Name="cins" ColumnName="cins" />
+          <ScalarProperty Name="tas" ColumnName="tas" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SiparisGoruntule">
+      <EntityTypeMapping TypeName="ArmaganYuzukModel.SiparisGoruntule">
+        <MappingFragment StoreEntitySet="SiparisGoruntule">
+          <ScalarProperty Name="IslemID" ColumnName="IslemID" />
+          <ScalarProperty Name="Satici" ColumnName="Satici" />
+          <ScalarProperty Name="MusteriAd" ColumnName="MusteriAd" />
+          <ScalarProperty Name="UrunId" ColumnName="UrunId" />
+          <ScalarProperty Name="UrunAd" ColumnName="UrunAd" />
+          <ScalarProperty Name="Adet" ColumnName="Adet" />
+          <ScalarProperty Name="Fiyat" ColumnName="Fiyat" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
